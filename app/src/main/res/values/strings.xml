@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Bird Watch</string>
+    <string name="bird_name_hint">Chirp Chirp, what\'s the bird\'s name?</string>
+    <string name="bird_description_hint">Tell us more about the bird :D</string>
+    <string name="bird_name_label">Name</string>
+    <string name="bird_date_label">Date seen</string>
+    <string name="bird_description_label">Description</string>
+    <string name="action_bar_switch_theme_label">Switch Theme</string>
+    <string name="action_bar_new_bird_label">New Bird Sighting</string>
+
+</resources>

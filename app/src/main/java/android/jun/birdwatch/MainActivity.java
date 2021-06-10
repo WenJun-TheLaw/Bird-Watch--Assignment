@@ -1,0 +1,88 @@
+package android.jun.birdwatch;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
+public class MainActivity extends SingleFragmentActivity {
+    //Finals
+    public static final String CURRENT_NIGHT_MODE = "mCurrentNightMode";
+
+    //Variables
+    private boolean mCurrentNightMode;
+
+    @Override
+    protected Fragment createFragment() {
+        return new BirdFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        //Linking up toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // Check whether we're recreating a previously destroyed instance
+        if (savedInstanceState != null) {
+            //Restore value of members from saved state
+            mCurrentNightMode = savedInstanceState.getBoolean(CURRENT_NIGHT_MODE);
+        }
+        else {
+            //Initialize a new instance with default values
+            mCurrentNightMode = true;
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        //Saving current states
+        savedInstanceState.putBoolean(CURRENT_NIGHT_MODE, mCurrentNightMode);
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    // We need to setup the menu bar in the app bar
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();  // pop up menu on the app bar
+        menuInflater.inflate(R.menu.menu, menu); // get menu from the xml file, main_menu.xml
+
+        return super.onCreateOptionsMenu(menu);  // return menu object
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.action_new_bird:
+                return true;
+
+            case R.id.action_switch_theme:
+                if(mCurrentNightMode) {
+                    // Dark mode is active, switching to light mode
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    getDelegate().applyDayNight();
+                    mCurrentNightMode = false;
+                }
+                else{
+                    // Light mode is active, bravo six going dark
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    getDelegate().applyDayNight();
+                    mCurrentNightMode = true;
+                }
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+
+    }
+}
