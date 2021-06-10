@@ -5,26 +5,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public class BirdListActivityMain extends SingleFragmentActivity {
+public class BirdListActivityMain extends AppCompatActivity {
     //Finals
     public static final String CURRENT_NIGHT_MODE = "mCurrentNightMode";
 
     //Variables
     private boolean mCurrentNightMode;
 
-    @Override
     protected Fragment createFragment() {
         return new BirdListFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bird_list);
         //Linking up toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -40,7 +41,16 @@ public class BirdListActivityMain extends SingleFragmentActivity {
             mCurrentNightMode = true;
         }
 
-        super.onCreate(savedInstanceState);
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+
+        if(fragment == null){
+            fragment = createFragment();
+            fm.beginTransaction()
+                    .add(R.id.fragment_container,fragment)
+                    .commit();
+        }
+
     }
 
     @Override
