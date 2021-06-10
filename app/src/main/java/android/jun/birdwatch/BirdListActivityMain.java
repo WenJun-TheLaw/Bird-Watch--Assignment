@@ -7,12 +7,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import java.util.List;
 import java.util.UUID;
 
 public class BirdListActivityMain extends AppCompatActivity {
@@ -22,6 +24,7 @@ public class BirdListActivityMain extends AppCompatActivity {
 
     //Variables
     private boolean mCurrentNightMode;
+    List<Bird> mBirds;
 
     protected Fragment createFragment() {
         return new BirdListFragment();
@@ -42,8 +45,21 @@ public class BirdListActivityMain extends AppCompatActivity {
         }
         else {
             //Initialize a new instance with default values
+            mCurrentNightMode = false;
+        }
+
+        //Checking Night mode and setting appropriately
+        if(mCurrentNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             mCurrentNightMode = true;
         }
+        else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            mCurrentNightMode = false;
+        }
+        getDelegate().applyDayNight();
+
+        mBirds = BirdList.get(this).getBirds();
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
@@ -77,6 +93,8 @@ public class BirdListActivityMain extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
             case R.id.action_new_bird:
+                Intent intent = BirdPagerActivity.newIntent(this, BirdList.get(this).addBird());
+                startActivity(intent);
                 return true;
 
             case R.id.action_switch_theme:

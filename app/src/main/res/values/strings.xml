@@ -7,5 +7,6 @@
     <string name="bird_description_label">Description</string>
     <string name="action_bar_switch_theme_label">Switch Theme</string>
     <string name="action_bar_new_bird_label">New Bird Sighting</string>
+    <string name="bird_remove">Remove Bird Sighting</string>
 
 </resources>

@@ -43,4 +43,16 @@ public class BirdList {
         }
         return null;
     }
+
+    //Add a bird
+    public UUID addBird(){
+        Bird bird = new Bird();
+        mBirds.add(bird);
+        return bird.getID();
+    }
+
+    //Remove a bird... aw :(
+    public void removeBird(UUID id){
+        mBirds.remove(getBird(id));
+    }
 }
