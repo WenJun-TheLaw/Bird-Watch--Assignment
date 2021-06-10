@@ -1,6 +1,7 @@
 package android.jun.birdwatch;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -10,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public class MainActivity extends SingleFragmentActivity {
+public class BirdListActivityMain extends SingleFragmentActivity {
     //Finals
     public static final String CURRENT_NIGHT_MODE = "mCurrentNightMode";
 
@@ -19,14 +20,12 @@ public class MainActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return new BirdFragment();
+        return new BirdListFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_bird_list);
         //Linking up toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -40,6 +39,8 @@ public class MainActivity extends SingleFragmentActivity {
             //Initialize a new instance with default values
             mCurrentNightMode = true;
         }
+
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -82,7 +83,6 @@ public class MainActivity extends SingleFragmentActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
-
     }
+
 }
