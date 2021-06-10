@@ -21,7 +21,7 @@ public class BirdList {
     public BirdList(Context context){
         mBirds = new ArrayList<>();
         //Generating a few sample birds
-        for(int i = 0; i < 5 ; i++){
+        for(int i = 0; i < 10 ; i++){
             Bird bird = new Bird();
             bird.setName("Sample Bird #" + (i+1));
             bird.setDescription("Just a normal bird.");

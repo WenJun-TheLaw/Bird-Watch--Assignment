@@ -29,13 +29,14 @@ public class BirdFragment extends Fragment {
         mBird = BirdList.get(getActivity()).getBird(birdId);
     }
 
-    public static BirdFragment newInstance(UUID crimeId){
+    public static BirdFragment newInstance(UUID birdId) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_BIRD_ID, crimeId);
+        args.putSerializable(ARG_BIRD_ID, birdId);
         BirdFragment fragment = new BirdFragment();
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

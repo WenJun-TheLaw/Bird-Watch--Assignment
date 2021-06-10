@@ -8,13 +8,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import java.util.UUID;
+
 public class BirdListActivityMain extends AppCompatActivity {
     //Finals
     public static final String CURRENT_NIGHT_MODE = "mCurrentNightMode";
+    private static final String EXTRA_BIRD_ID  = "bird_id";
 
     //Variables
     private boolean mCurrentNightMode;
