@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_share_bird_sighting"
+        android:title = "@string/share_bird_text"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_share"
+        app:iconTint="@color/fontColor"/>
+
+</menu>
