@@ -12,4 +12,7 @@
     <string name="bird_count_format">%1$d birds</string>
     <string name="bird_remove">Remove Bird Sighting</string>
     <string name="bird_add">Confirm Bird Sighting</string>
+    <string name="share_bird_text">Share Bird Sighting</string>
+    <string name="bird_sighting_subject">BirdWatch: Bird Sighting</string>
+    <string name="bird_sighting">%1$s sighted.\nThe bird was seen on %2$s.\nBird description: %3$s</string>
 </resources>

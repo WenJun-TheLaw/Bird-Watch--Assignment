@@ -7,17 +7,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-
 import java.util.Date;
-import java.util.Objects;
 import java.util.UUID;
 
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -37,6 +40,14 @@ public class BirdFragment extends Fragment {
         super.onCreate(savedInstanceState);
         UUID birdId = (UUID) getArguments().getSerializable(ARG_BIRD_ID);
         mBird = BirdList.get(getActivity()).getBird(birdId);
+
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BirdList.get(requireActivity()).updateBird(mBird);
     }
 
     @Override
@@ -50,19 +61,6 @@ public class BirdFragment extends Fragment {
             updateDate();
         }
     }
-
-    private void updateDate() {
-        mDateButton.setText(mBird.getDate().toString());
-    }
-
-    public static BirdFragment newInstance(UUID birdId) {
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_BIRD_ID, birdId);
-        BirdFragment fragment = new BirdFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -144,16 +142,50 @@ public class BirdFragment extends Fragment {
                         .show();
             }
         });
-
-        mConfirmButton = (Button) v.findViewById(R.id.bird_add);
-        mConfirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Basically press back to bring user back to main menu (BirdListActivityMain)
-                requireActivity().onBackPressed();
-            }
-        });
         return v;
+    }
+
+    // We need to setup the menu bar in the app bar
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.bird_fragment_menu, menu); // get menu from the xml file, bird_fragment_menu.xml
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.action_share_bird_sighting:
+                //Sharing the bird sighting
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_TEXT, getBirdSighting());
+                i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.bird_sighting_subject));
+                i = Intent.createChooser(i, getString(R.string.share_bird_text));
+                startActivity(i);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void updateDate() {
+        mDateButton.setText(mBird.getDate().toString());
+    }
+
+    public static BirdFragment newInstance(UUID birdId) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_BIRD_ID, birdId);
+        BirdFragment fragment = new BirdFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    private String getBirdSighting(){
+        String dateFormat = "EEE, MMM dd";
+        String dateString = DateFormat.format(dateFormat, mBird.getDate()).toString();
+
+        String sighting = getString(R.string.bird_sighting, mBird.getName(), dateString, mBird.getDescription());
+        return sighting;
     }
 }
 

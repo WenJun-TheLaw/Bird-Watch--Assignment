@@ -11,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +23,7 @@ public class BirdListFragment extends Fragment {
     //Finals
     public static final String CURRENT_NIGHT_MODE = "mCurrentNightMode";
     public static final String SUBTITLE_VISIBILITY = "mSubtitleVisibility";
-    private static final String EXTRA_BIRD_ID  = "bird_id";
+    private static final String FRAGMENT_TAG  = "bird_list_fragment";
 
     //Variables
     private boolean mCurrentNightMode;
@@ -37,6 +39,8 @@ public class BirdListFragment extends Fragment {
         setHasOptionsMenu(true);
         mBirds = BirdList.get(requireActivity()).getBirds();
     }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_bird, container, false);
@@ -73,13 +77,13 @@ public class BirdListFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState){
-        //Saving current states
-        savedInstanceState.putBoolean(CURRENT_NIGHT_MODE, mCurrentNightMode);
-        savedInstanceState.putBoolean(SUBTITLE_VISIBILITY, mSubtitleVisibility);
-
+    public void onSaveInstanceState(Bundle outState) {
         // Always call the superclass so it can save the view hierarchy state
-        super.onSaveInstanceState(savedInstanceState);
+        super.onSaveInstanceState(outState);
+
+        //Saving current states
+        outState.putBoolean(CURRENT_NIGHT_MODE, mCurrentNightMode);
+        outState.putBoolean(SUBTITLE_VISIBILITY, mSubtitleVisibility);
     }
 
     // We need to setup the menu bar in the app bar
@@ -106,6 +110,11 @@ public class BirdListFragment extends Fragment {
                 return true;
 
             case R.id.action_new_bird:
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                fm.popBackStack(FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                fm.beginTransaction()
+                        .addToBackStack(FRAGMENT_TAG)
+                        .commit();
                 //Starting activity with new Bird
                 Intent intent = BirdPagerActivity.newIntent(requireActivity(), BirdList.get(requireActivity()).addBird());
                 startActivity(intent);
@@ -161,8 +170,11 @@ public class BirdListFragment extends Fragment {
             mBirdRecyclerView.setAdapter(mBirdAdapter);
         }
         else{
+            mBirdAdapter.setBirds(birds);
             mBirdAdapter.notifyDataSetChanged();
         }
+
+        updateSubtitle();
     }
 
     private class BirdHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -215,6 +227,10 @@ public class BirdListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mBirds.size();
+        }
+
+        public void setBirds(List<Bird> birds){
+            mBirds = birds;
         }
     }
 }

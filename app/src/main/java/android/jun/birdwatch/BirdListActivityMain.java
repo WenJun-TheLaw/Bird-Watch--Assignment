@@ -15,9 +15,39 @@ import android.view.MenuItem;
 
 import java.util.List;
 
-public class BirdListActivityMain extends SingleFragmentActivity {
+public class BirdListActivityMain extends AppCompatActivity {
+    public static final String FRAGMENT_NAME = "bird_list_fragment";
+    Fragment mFragment;
 
     protected Fragment createFragment() {
         return new BirdListFragment();
+    }
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_activity_bird_list);
+
+        FragmentManager fm = getSupportFragmentManager();
+        mFragment = fm.findFragmentById(R.id.fragment_container);
+
+        if (savedInstanceState != null) {
+            //Restore the fragment's instance
+            mFragment = getSupportFragmentManager().getFragment(savedInstanceState, "FRAGMENT_NAME");
+        }
+
+        if(mFragment == null){
+            mFragment = createFragment();
+            fm.beginTransaction()
+                    .add(R.id.fragment_container, mFragment)
+                    .commit();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        //Save the fragment's instance
+        getSupportFragmentManager().putFragment(outState, "FRAGMENT_NAME", mFragment);
+
+        super.onSaveInstanceState(outState);
     }
 }

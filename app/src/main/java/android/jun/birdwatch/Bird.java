@@ -38,7 +38,11 @@ public class Bird {
     }
 
     public Bird(){
-        mID = UUID.randomUUID();
+        this(UUID.randomUUID());
+    }
+
+    public Bird(UUID id){
+        mID = id;
         mDate = new Date();
     }
 }
