@@ -16,6 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+
+import java.io.File;
 import java.util.Date;
 import java.util.UUID;
 
@@ -34,13 +38,16 @@ public class BirdFragment extends Fragment {
     private Button mDateButton;
     private Button mRemoveButton;
     private Button mConfirmButton;
+    private ImageButton mPhotoButton;
+    private ImageView mPhotoView;
+    private File mPhotoFile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UUID birdId = (UUID) getArguments().getSerializable(ARG_BIRD_ID);
         mBird = BirdList.get(getActivity()).getBird(birdId);
-
+        mPhotoFile = BirdList.get(requireActivity()).getPhotoFile(mBird);
         setHasOptionsMenu(true);
     }
 
@@ -66,7 +73,7 @@ public class BirdFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_bird, container, false);
 
-        //Linking up widgets
+        //Linking up Name Widgets
         mNameField = (EditText) v.findViewById(R.id.bird_name);
         if(mBird.getName() != null){
             mNameField.setText(mBird.getName());
@@ -86,6 +93,7 @@ public class BirdFragment extends Fragment {
             }
         });
 
+        //Linking up Description Widgets
         mDescriptionField = (EditText) v.findViewById(R.id.bird_description);
         if(mBird.getDescription() != null){
             mDescriptionField.setText(mBird.getDescription());
@@ -105,6 +113,7 @@ public class BirdFragment extends Fragment {
             }
         });
 
+        //Setting up Date Picker button
         mDateButton = (Button) v.findViewById(R.id.bird_date);
         updateDate();
         mDateButton.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +126,7 @@ public class BirdFragment extends Fragment {
             }
         });
 
+        //Setting up remove bird button
         mRemoveButton = (Button) v.findViewById(R.id.bird_remove);
         mRemoveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +152,10 @@ public class BirdFragment extends Fragment {
                         .show();
             }
         });
+
+        //Setting up take photo button and photo ImageView
+        mPhotoButton = (ImageButton) v.findViewById(R.id.bird_camera);
+        mPhotoView = (ImageView) v.findViewById(R.id.bird_photo);
         return v;
     }
 

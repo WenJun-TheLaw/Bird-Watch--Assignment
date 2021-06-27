@@ -12,6 +12,18 @@
         <activity
             android:name=".BirdPagerActivity"
             android:parentActivityName=".BirdListActivityMain"/>
+
+        <!--Using androidx here due to android.support.v4.content.FileProvider depreciated on API 28 and above-->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="android.jun.birdwatch.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/files"/>
+        </provider>
+
         <activity android:name=".BirdListActivityMain">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

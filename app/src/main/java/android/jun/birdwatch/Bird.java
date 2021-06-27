@@ -45,4 +45,8 @@ public class Bird {
         mID = id;
         mDate = new Date();
     }
+
+    public String getPhotoFilename(){
+        return "IMG_" + getID().toString() + ".jpg";
+    }
 }
