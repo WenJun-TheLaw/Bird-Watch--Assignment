@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_show_bird_count"
+        android:title = "@string/action_bar_show_bird_count"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_show_count"
+        app:iconTint="@color/fontColor"/>
 
     <item
         android:id="@+id/action_new_bird"

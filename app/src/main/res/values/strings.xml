@@ -7,6 +7,9 @@
     <string name="bird_description_label">Description</string>
     <string name="action_bar_switch_theme_label">Switch Theme</string>
     <string name="action_bar_new_bird_label">New Bird Sighting</string>
+    <string name="action_bar_show_bird_count">Show Bird Count</string>
+    <string name="action_bar_hide_bird_count">Hide Bird Count</string>
+    <string name="bird_count_format">%1$d birds</string>
     <string name="bird_remove">Remove Bird Sighting</string>
-
+    <string name="bird_add">Confirm Bird Sighting</string>
 </resources>
