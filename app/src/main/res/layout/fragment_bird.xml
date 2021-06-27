@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -55,14 +56,24 @@
         android:gravity="bottom">
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/bird_remove"
-            android:textColor="@color/fontColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
             android:text="@string/bird_remove"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginBottom="8dp"
-            android:padding= "20dp"/>
+            android:textColor="@color/fontColor"
+            android:layout_margin="10dp"/>
+
+        <Button
+            android:id="@+id/bird_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="@string/bird_add"
+            android:textColor="@color/fontColor"
+            android:layout_margin="10dp"/>
 
     </LinearLayout>
 

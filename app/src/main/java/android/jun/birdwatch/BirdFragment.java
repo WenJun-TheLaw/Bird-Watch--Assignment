@@ -14,10 +14,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -30,14 +30,13 @@ public class BirdFragment extends Fragment {
     private EditText mDescriptionField;
     private Button mDateButton;
     private Button mRemoveButton;
-    private Fragment currentFragment;
+    private Button mConfirmButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UUID birdId = (UUID) getArguments().getSerializable(ARG_BIRD_ID);
         mBird = BirdList.get(getActivity()).getBird(birdId);
-        currentFragment = this;
     }
 
     @Override
@@ -131,7 +130,7 @@ public class BirdFragment extends Fragment {
                         switch (i){
                             case DialogInterface.BUTTON_POSITIVE:
                                 BirdList.get(getActivity()).removeBird(mBird.getID());
-                                getActivity().onBackPressed();
+                                requireActivity().onBackPressed();
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
                                 break;
@@ -143,6 +142,15 @@ public class BirdFragment extends Fragment {
                         .setPositiveButton("Yes", dialogListener)
                         .setNegativeButton("No", dialogListener)
                         .show();
+            }
+        });
+
+        mConfirmButton = (Button) v.findViewById(R.id.bird_add);
+        mConfirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Basically press back to bring user back to main menu (BirdListActivityMain)
+                requireActivity().onBackPressed();
             }
         });
         return v;
