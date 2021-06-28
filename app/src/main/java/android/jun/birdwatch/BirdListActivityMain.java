@@ -17,7 +17,7 @@ import java.util.List;
 
 public class BirdListActivityMain extends AppCompatActivity {
     public static final String FRAGMENT_NAME = "bird_list_fragment";
-    Fragment mFragment;
+    private Fragment mFragment;
 
     protected Fragment createFragment() {
         return new BirdListFragment();
@@ -32,10 +32,9 @@ public class BirdListActivityMain extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             //Restore the fragment's instance
-            mFragment = getSupportFragmentManager().getFragment(savedInstanceState, "FRAGMENT_NAME");
+            mFragment = getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_NAME);
         }
-
-        if(mFragment == null){
+        else{
             mFragment = createFragment();
             fm.beginTransaction()
                     .add(R.id.fragment_container, mFragment)
@@ -45,9 +44,9 @@ public class BirdListActivityMain extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        //Save the fragment's instance
-        getSupportFragmentManager().putFragment(outState, "FRAGMENT_NAME", mFragment);
-
         super.onSaveInstanceState(outState);
+
+        //Save the fragment's instance
+        getSupportFragmentManager().putFragment(outState, FRAGMENT_NAME, mFragment);
     }
 }

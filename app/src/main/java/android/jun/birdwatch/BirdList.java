@@ -9,6 +9,7 @@ import android.jun.birdwatch.database.BirdCursorWrapper;
 import android.jun.birdwatch.database.BirdDbSchema;
 import android.jun.birdwatch.database.BirdDbSchema.BirdTable;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -67,6 +68,12 @@ public class BirdList {
         } finally {
             cursor.close();
         }
+    }
+
+    //Returning the photo file for that Bird
+    public File getPhotoFile(Bird bird){
+        File filesDir = mContext.getFilesDir();
+        return new File(filesDir, bird.getPhotoFilename());
     }
 
     //Updating the bird's info in teh db

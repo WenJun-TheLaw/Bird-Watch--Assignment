@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="android.jun.birdwatch">
 
+    <uses-feature
+        android:name="android.hardware.camera2"
+        android:required="false"/>
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,6 +18,18 @@
         <activity
             android:name=".BirdPagerActivity"
             android:parentActivityName=".BirdListActivityMain"/>
+
+        <!--Using androidx here due to android.support.v4.content.FileProvider depreciated on API 28 and above-->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="android.jun.birdwatch.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/files"/>
+        </provider>
+
         <activity android:name=".BirdListActivityMain">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
