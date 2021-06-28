@@ -15,4 +15,6 @@
     <string name="share_bird_text">Share Bird Sighting</string>
     <string name="bird_sighting_subject">BirdWatch: Bird Sighting</string>
     <string name="bird_sighting">%1$s sighted.\nThe bird was seen on %2$s.\nBird description: %3$s</string>
+    <string name="device_no_support_camera">Your device does not support this function D:</string>
+
 </resources>
