@@ -16,5 +16,8 @@
     <string name="bird_sighting_subject">BirdWatch: Bird Sighting</string>
     <string name="bird_sighting">%1$s sighted.\nThe bird was seen on %2$s.\nBird description: %3$s</string>
     <string name="device_no_support_camera">Your device does not support this function D:</string>
-
+    <string name="bird_dialog_title">Choose a picture for the cute little bird :D</string>
+    <string name="bird_dialog_camera">Take Picture with Camera</string>
+    <string name="bird_dialog_gallery">Choose from Gallery</string>
+    <string name="bird_dialog_cancel">Cancel</string>
 </resources>
