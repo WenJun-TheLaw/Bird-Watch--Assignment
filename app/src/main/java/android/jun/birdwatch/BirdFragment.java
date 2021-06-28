@@ -56,7 +56,6 @@ public class BirdFragment extends Fragment {
     private EditText mDescriptionField;
     private Button mDateButton;
     private Button mRemoveButton;
-    private Button mConfirmButton;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     private File mPhotoFile;

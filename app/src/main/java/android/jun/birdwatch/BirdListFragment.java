@@ -1,6 +1,7 @@
 package android.jun.birdwatch;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,10 +9,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.File;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
@@ -35,18 +40,8 @@ public class BirdListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
         mBirds = BirdList.get(requireActivity()).getBirds();
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_list_bird, container, false);
-
-        mBirdRecyclerView = (RecyclerView) view.findViewById(R.id.bird_recycler_view);
-        mBirdRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // Check whether we're recreating a previously destroyed instance
         if (savedInstanceState != null) {
@@ -59,6 +54,14 @@ public class BirdListFragment extends Fragment {
             mCurrentNightMode = false;
             mSubtitleVisibility = false;
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_list_bird, container, false);
+
+        mBirdRecyclerView = (RecyclerView) view.findViewById(R.id.bird_recycler_view);
+        mBirdRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         //Checking Night mode and setting appropriately
         if(mCurrentNightMode) {
@@ -75,6 +78,7 @@ public class BirdListFragment extends Fragment {
 
         return view;
     }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -181,14 +185,17 @@ public class BirdListFragment extends Fragment {
         private TextView mNameTextView;
         private TextView mDescriptionTextView;
         private TextView mDateTextView;
+        private ImageView mBirdPhoto;
+        private File mPhotoFile;
         private Bird mBird;
 
         public BirdHolder(LayoutInflater inflater, ViewGroup parent){
             super(inflater.inflate(R.layout.list_item_bird, parent, false));
             itemView.setOnClickListener(this);
-            mNameTextView = (TextView) itemView.findViewById(R.id.bird_name);
-            mDescriptionTextView = (TextView) itemView.findViewById(R.id.bird_description);
-            mDateTextView = (TextView) itemView.findViewById(R.id.bird_date);
+            mNameTextView = itemView.findViewById(R.id.bird_name);
+            mDescriptionTextView = itemView.findViewById(R.id.bird_description);
+            mDateTextView = itemView.findViewById(R.id.bird_date);
+            mBirdPhoto = itemView.findViewById(R.id.bird_list_photo);
         }
 
         public void bind (Bird bird){
@@ -196,12 +203,26 @@ public class BirdListFragment extends Fragment {
             mNameTextView.setText(bird.getName());
             mDescriptionTextView.setText(bird.getDescription());
             mDateTextView.setText(bird.getDate().toString());
+            mPhotoFile = BirdList.get(requireContext()).getPhotoFile(mBird);
+            updatePhotoView();
         }
 
         @Override
         public void onClick(View view) {
             Intent intent = BirdPagerActivity.newIntent(getActivity(), mBird.getID());
             startActivity(intent);
+        }
+
+        private void updatePhotoView() {
+            //If no photo, display nothing
+            if (mPhotoFile == null || !mPhotoFile.exists()) {
+                mBirdPhoto.setImageDrawable(null);
+            }
+            //IF got, scale the bitmap and dispay it
+            else {
+                Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(), requireActivity());
+                mBirdPhoto.setImageBitmap(bitmap);
+            }
         }
     }
 
@@ -233,4 +254,6 @@ public class BirdListFragment extends Fragment {
             mBirds = birds;
         }
     }
+
+
 }
